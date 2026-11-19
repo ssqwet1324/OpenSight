@@ -10,12 +10,14 @@ import (
 )
 
 type Handler struct {
-	uc usecase.UseCaseProvider
+	uc      usecase.UseCaseProvider
+	publish func(string)
 }
 
-func New(uc usecase.UseCaseProvider) *Handler {
+func New(uc usecase.UseCaseProvider, publish func(string)) *Handler {
 	return &Handler{
-		uc: uc,
+		uc:      uc,
+		publish: publish,
 	}
 }
 
@@ -55,6 +57,9 @@ func (h *Handler) Ask(w http.ResponseWriter, r *http.Request) {
 	if resp == nil {
 		http.Error(w, "empty response from service", http.StatusInternalServerError)
 		return
+	}
+	if h.publish != nil {
+		h.publish(resp.Answer)
 	}
 
 	w.Header().Set("Content-Type", "application/json")

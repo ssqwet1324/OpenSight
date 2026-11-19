@@ -3,6 +3,7 @@ module github.com/ssqwet1324/opensight
 go 1.27.1
 
 require (
+	github.com/coder/websocket v1.8.15
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	resty.dev/v3 v3.0.0-rc.4
 )
